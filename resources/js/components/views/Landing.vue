@@ -59,6 +59,7 @@
                     <v-row justify="center">
                         <v-col cols="12">
                             <GmapMap
+                                ref="map"
                                 style="width: 100%; height: 800px;"
                                 :zoom="16"
                                 :center="center"
@@ -72,7 +73,7 @@
                                     :key="latlng.id"
                                     :position="latlng"
                                     :clickable="true"
-                                    @click="showHospital(latlng.id)"
+                                    @click="showHospital(latlng)"
                                     icon="https://res.cloudinary.com/mactimestwo/image/upload/v1630607746/marker_mqvzre.ico"
                                 />
                             </GmapMap>
@@ -153,18 +154,18 @@ export default {
             flat: null,
             hospital: { id: 1025167, lat: 6.9214, lng: 122.075 },
             hospitals: [
-                { id: 1025167, lat: 6.9214, lng: 122.075 },
-                { id: 1025168, lat: 6.9225, lng: 122.0771 },
-                { id: 1025169, lat: 6.9246, lng: 122.0712 },
-                { id: 1025170, lat: 6.9237, lng: 122.0783 },
-                { id: 1025171, lat: 6.9258, lng: 122.0794 }
+                // { id: 1025167, lat: 6.9214, lng: 122.075 },
+                // { id: 1025168, lat: 6.9225, lng: 122.0771 },
+                // { id: 1025169, lat: 6.9246, lng: 122.0712 },
+                // { id: 1025170, lat: 6.9237, lng: 122.0783 },
+                // { id: 1025171, lat: 6.9258, lng: 122.0794 }
             ],
             hospitalsLatLng: [
-                { id: 1025167, lat: 6.9214, lng: 122.075 },
-                { id: 1025168, lat: 6.9225, lng: 122.0771 },
-                { id: 1025169, lat: 6.9246, lng: 122.0712 },
-                { id: 1025170, lat: 6.9237, lng: 122.0783 },
-                { id: 1025171, lat: 6.9258, lng: 122.0794 }
+                // { id: 1025167, lat: 6.9214, lng: 122.075 },
+                // { id: 1025168, lat: 6.9225, lng: 122.0771 },
+                // { id: 1025169, lat: 6.9246, lng: 122.0712 },
+                // { id: 1025170, lat: 6.9237, lng: 122.0783 },
+                // { id: 1025171, lat: 6.9258, lng: 122.0794 }
             ],
             //Google Maps Variables
             center: { lat: 6.9214, lng: 122.079 },
@@ -199,13 +200,12 @@ export default {
                     let hospitals = response.data.nearby;
                     hospitals.forEach(hospital => {
                         var position = {
-                            ...hospital,
+                            id: hospital.id,
                             lat: hospital.latitude,
                             lng: hospital.longitude
                         };
                         this.hospitalsLatLng.push(position);
                     });
-                    console.log(this.hospitalsLatLng);
                 })
                 .catch(error => {
                     console.log(error);
@@ -216,10 +216,10 @@ export default {
                 });
         },
 
-        showHospital(id) {
-            this.hospital = this.hospitals.find(x => x.id === id);
-            console.log(this.hospital);
+        showHospital(hospital) {
+            this.hospital = this.hospitals.find(x => x.id === hospital.id);
             this.hospitalDialog = true;
+            this.getDirection(this.center, hospital);
         },
 
         //Get Address to current location
@@ -251,6 +251,27 @@ export default {
             } else {
                 return "red";
             }
+        },
+
+        //Get Direction from user to hospital
+        getDirection(user, hospital) {
+            this.$gmapApiPromiseLazy().then(() => {
+                this.$options.directionsDisplay.set("directions", null);
+                this.$options.directionsService.route(
+                    {
+                        origin: user,
+                        destination: hospital,
+                        travelMode: "DRIVING"
+                    },
+                    (result, status) => {
+                        if (status === "OK") {
+                            this.$options.directionsDisplay.setDirections(
+                                result
+                            );
+                        }
+                    }
+                );
+            });
         }
     },
 
@@ -275,6 +296,20 @@ export default {
         }
         this.getUserGeolocation();
         this.fetchHospitals();
+    },
+
+    mounted() {
+        // this.pusherInit();
+        //Routes
+        this.$nextTick(function() {
+            this.$gmapApiPromiseLazy().then(() => {
+                this.$options.directionsService = new google.maps.DirectionsService();
+                this.$options.directionsDisplay = new google.maps.DirectionsRenderer();
+                this.$options.directionsDisplay.setMap(
+                    this.$refs.map.$mapObject
+                );
+            });
+        });
     },
 
     beforeRouteEnter(to, from, next) {
