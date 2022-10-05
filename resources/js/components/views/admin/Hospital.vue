@@ -39,7 +39,7 @@
                             <template v-slot:item.id="{ item }">
                                 {{
                                     tableHospitals
-                                        .map(function(x) {
+                                        .map(function (x) {
                                             return x.id;
                                         })
                                         .indexOf(item.id) + 1
@@ -71,87 +71,94 @@
                     {{ formHospitalTitle }}
                 </v-card-title>
                 <v-card-text>
-                    <v-row justify="center">
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                type="text"
-                                :error-messages="
-                                    formHospitalErrors.user.username
-                                "
-                                v-model="
-                                    editedHospitalInformation.user.username
-                                "
-                                label="Username"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                v-model="
-                                    editedHospitalInformation.user.password
-                                "
-                                label="Password"
-                                id="password"
-                                name="password"
-                                prepend-icon="fa-lock"
-                                :append-icon="
-                                    visible ? 'mdi-eye-off' : 'mdi-eye'
-                                "
-                                @click:append="visible = !visible"
-                                :rules="rules.passwordRules"
-                                :type="visible ? 'text' : 'password'"
-                                @keydown.enter="login()"
-                            />
-                        </v-col>
-                    </v-row>
-                    <v-row justify="center">
-                        <v-col cols="12" md="4">
-                            <v-text-field
-                                type="text"
-                                :error-messages="formHospitalErrors.name"
-                                v-model="editedHospitalInformation.name"
-                                label="Name"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="4">
-                            <v-text-field
-                                type="text"
-                                :error-messages="formHospitalErrors.number"
-                                v-model="editedHospitalInformation.number"
-                                label="Number"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="4">
-                            <v-select
-                                :items="statuses"
-                                :error-messages="formHospitalErrors.status"
-                                v-model="editedHospitalInformation.status"
-                                label="Status"
-                            />
-                        </v-col>
-                        <v-col cols="12">
-                            <v-text-field
-                                type="text"
-                                :error-messages="formHospitalErrors.address"
-                                v-model="editedHospitalInformation.address"
-                                label="Address"
-                            />
-                        </v-col>
-                    </v-row>
-                    <v-row
-                        ><v-col cols="12">
-                            <GmapMap
-                                style="width: 100%; height: 400px;"
-                                :zoom="25"
-                                :center="center"
-                            >
-                                <GmapMarker
-                                    @drag="changed"
-                                    label="★"
-                                    :draggable="true"
-                                    :position="address"
-                                /> </GmapMap
-                        ></v-col>
-                    </v-row>
+                    <v-form ref="hospitalForm" lazy-validation>
+                        <v-row justify="center">
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    type="text"
+                                    :error-messages="
+                                        formHospitalErrors.user.username
+                                    "
+                                    v-model="
+                                        editedHospitalInformation.user.username
+                                    "
+                                    :rules="rules.required"
+                                    label="Username"
+                                />
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    v-model="
+                                        editedHospitalInformation.user.password
+                                    "
+                                    label="Password"
+                                    id="password"
+                                    name="password"
+                                    prepend-icon="fa-lock"
+                                    :append-icon="
+                                        visible ? 'mdi-eye-off' : 'mdi-eye'
+                                    "
+                                    @click:append="visible = !visible"
+                                    :rules="rules.passwordRules"
+                                    :type="visible ? 'text' : 'password'"
+                                    @keydown.enter="login()"
+                                />
+                            </v-col>
+                        </v-row>
+                        <v-row justify="center">
+                            <v-col cols="12" md="4">
+                                <v-text-field
+                                    type="text"
+                                    :rules="rules.required"
+                                    :error-messages="formHospitalErrors.name"
+                                    v-model="editedHospitalInformation.name"
+                                    label="Name"
+                                />
+                            </v-col>
+                            <v-col cols="12" md="4">
+                                <v-text-field
+                                    type="text"
+                                    :rules="rules.required"
+                                    :error-messages="formHospitalErrors.number"
+                                    v-model="editedHospitalInformation.number"
+                                    label="Number"
+                                />
+                            </v-col>
+                            <v-col cols="12" md="4">
+                                <v-select
+                                    :items="statuses"
+                                    :rules="rules.required"
+                                    :error-messages="formHospitalErrors.status"
+                                    v-model="editedHospitalInformation.status"
+                                    label="Status"
+                                />
+                            </v-col>
+                            <v-col cols="12">
+                                <v-text-field
+                                    :rules="rules.required"
+                                    type="text"
+                                    :error-messages="formHospitalErrors.address"
+                                    v-model="editedHospitalInformation.address"
+                                    label="Address"
+                                />
+                            </v-col>
+                        </v-row>
+                        <v-row
+                            ><v-col cols="12">
+                                <GmapMap
+                                    style="width: 100%; height: 400px"
+                                    :zoom="25"
+                                    :center="center"
+                                >
+                                    <GmapMarker
+                                        @drag="changed"
+                                        label="★"
+                                        :draggable="true"
+                                        :position="address"
+                                    /> </GmapMap
+                            ></v-col>
+                        </v-row>
+                    </v-form>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -189,7 +196,7 @@ export default {
                 number: null,
                 user: { username: null, password: null },
                 lat: 6.9214,
-                lng: 122.079
+                lng: 122.079,
             },
 
             tableHospitalHeaders: [
@@ -201,8 +208,8 @@ export default {
                     text: "Actions",
                     value: "actions",
                     sortable: false,
-                    align: "center"
-                }
+                    align: "center",
+                },
             ],
 
             editedHospitalIndex: -1,
@@ -212,7 +219,7 @@ export default {
                 number: null,
                 user: { username: null, password: null },
                 latitude: 6.9214,
-                longitude: 122.079
+                longitude: 122.079,
             },
             defaultHospitalInformation: {
                 name: null,
@@ -220,7 +227,7 @@ export default {
                 number: null,
                 user: { username: null, password: null },
                 latitude: 6.9214,
-                longitude: 122.079
+                longitude: 122.079,
             },
 
             //Google Maps Variables
@@ -229,36 +236,36 @@ export default {
 
             rules: {
                 required: [
-                    v => !!v || "Field is required",
-                    v =>
+                    (v) => !!v || "Field is required",
+                    (v) =>
                         (!!v && v.length <= 255) ||
-                        " Field should not be more than 255 characters"
+                        " Field should not be more than 255 characters",
                 ],
                 emailRules: [
-                    v => !!v || "E-mail is required",
-                    v =>
+                    (v) => !!v || "E-mail is required",
+                    (v) =>
                         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
                         "E-mail must be valid",
-                    v =>
+                    (v) =>
                         (!!v && v.length <= 255) ||
-                        "E-mail must not be more than 255 characters"
+                        "E-mail must not be more than 255 characters",
                 ],
                 hospitalRules: [
-                    v => !!v || "Hospital Number is required",
-                    v =>
+                    (v) => !!v || "Hospital Number is required",
+                    (v) =>
                         (!!v && v.length >= 10) ||
                         "Hospital Number must be 11 characters",
-                    v =>
+                    (v) =>
                         (!!v && v.length < 11) ||
-                        "Hospital Number must not be more than 11 characters"
+                        "Hospital Number must not be more than 11 characters",
                 ],
                 passwordRules: [
-                    v => !!v || "Password is required",
-                    v =>
+                    (v) => !!v || "Password is required",
+                    (v) =>
                         (!!v && v.length >= 8) ||
-                        "Password must be more than 8 characters"
-                ]
-            }
+                        "Password must be more than 8 characters",
+                ],
+            },
         };
     },
 
@@ -267,7 +274,7 @@ export default {
             return this.editedHospitalIndex === -1
                 ? "New Hospital"
                 : "Edit Hospital";
-        }
+        },
     },
 
     mounted() {
@@ -281,10 +288,10 @@ export default {
             this.componentOverlay = true;
             axios
                 .get("/api/v1/hospitals")
-                .then(response => {
+                .then((response) => {
                     this.tableHospitals = response.data.data;
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.log(error);
                 })
                 .finally(() => {
@@ -294,11 +301,14 @@ export default {
         },
 
         saveHospital() {
-            this.componentOverlay = true;
-            if (this.editedHospitalIndex > -1) {
-                this.updateHospital();
-            } else {
-                this.createHospital();
+            // Validate hospitalForm
+            if (this.$refs.hospitalForm.validate()) {
+                this.componentOverlay = true;
+                if (this.editedHospitalIndex > -1) {
+                    this.updateHospital();
+                } else {
+                    this.createHospital();
+                }
             }
         },
 
@@ -307,10 +317,10 @@ export default {
                 .post("/api/v1/hospitals", {
                     ..._.omit(this.editedHospitalInformation, "user"),
                     ...this.editedHospitalInformation.user,
-                    password_confirmation: this.editedHospitalInformation.user
-                        .password
+                    password_confirmation:
+                        this.editedHospitalInformation.user.password,
                 })
-                .then(response => {
+                .then((response) => {
                     this.fetchHospitals();
                     this.closeHospitalForm();
                     swal.fire({
@@ -320,10 +330,10 @@ export default {
                         icon: "success",
                         text: "Successfully Created",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
                     });
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.componentOverlay = false;
 
                     if (error.response.status == 422) {
@@ -338,7 +348,7 @@ export default {
         editHospital(hospital) {
             this.address = this.center = {
                 lat: hospital.latitude,
-                lng: hospital.longitude
+                lng: hospital.longitude,
             };
 
             this.editedHospitalIndex = this.tableHospitals.indexOf(hospital);
@@ -351,10 +361,10 @@ export default {
                 .put("/api/v1/hospitals/" + this.editedHospitalInformation.id, {
                     ..._.omit(this.editedHospitalInformation, "user"),
                     ...this.editedHospitalInformation.user,
-                    password_confirmation: this.editedHospitalInformation.user
-                        .password
+                    password_confirmation:
+                        this.editedHospitalInformation.user.password,
                 })
-                .then(response => {
+                .then((response) => {
                     this.fetchHospitals();
                     this.closeHospitalForm();
                     swal.fire({
@@ -364,10 +374,10 @@ export default {
                         icon: "success",
                         text: "Successfully Updated",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
                     });
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.componentOverlay = false;
 
                     if (error.response.status == 422) {
@@ -387,9 +397,9 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Yes, delete it!",
             })
-                .then(result => {
+                .then((result) => {
                     if (result.value) {
                         axios
                             .delete("/api/v1/hospitals/" + hospital.id)
@@ -402,7 +412,7 @@ export default {
                                     "success"
                                 );
                             })
-                            .catch(error => {
+                            .catch((error) => {
                                 swal.fire(
                                     "Failed!",
                                     "There was something wrong.",
@@ -432,7 +442,7 @@ export default {
             setTimeout(() => {
                 this.formHospitalErrors = {
                     name: null,
-                    user: { username: null, password: null }
+                    user: { username: null, password: null },
                 };
                 this.editedHospitalInformation = Object.assign(
                     {},
@@ -466,10 +476,10 @@ export default {
             var UserGeolocationLongitude = position.coords.longitude;
             this.center = {
                 lat: UserGeolocationLatitude,
-                lng: UserGeolocationLongitude
+                lng: UserGeolocationLongitude,
             };
             this.address = this.center;
-        }
-    }
+        },
+    },
 };
 </script>
