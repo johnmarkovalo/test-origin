@@ -77,7 +77,7 @@
                                 <v-text-field
                                     type="text"
                                     :error-messages="
-                                        formHospitalErrors.user.username
+                                        formHospitalErrors.username
                                     "
                                     v-model="
                                         editedHospitalInformation.user.username
