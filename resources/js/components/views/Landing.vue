@@ -254,7 +254,7 @@ export default {
         },
 
         chipColor(status) {
-            if (status == "RECIEVING") {
+            if (status == "RECEIVING") {
                 return "success";
             } else {
                 return "error";
