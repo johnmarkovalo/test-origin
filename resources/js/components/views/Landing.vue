@@ -197,9 +197,10 @@ export default {
                 .then((response) => {
                     this.hospitals = response.data.nearby;
                     let hospitals = response.data.nearby;
+                    let count = 1;
                     hospitals.forEach((hospital) => {
                         var position = {
-                            id: hospital.id,
+                            id: count,
                             lat: hospital.latitude,
                             type: hospital.type,
                             lng: hospital.longitude,
@@ -207,6 +208,7 @@ export default {
                         if (hospital.type == "HOSPITAL")
                             this.hospitalsLatLng.push(position);
                         else this.isolationsLatLng.push(position);
+                        count++;
                     });
                 })
                 .catch((error) => {
@@ -219,7 +221,11 @@ export default {
         },
 
         showHospital(hospital) {
-            this.hospital = this.hospitals.find((x) => x.id === hospital.id);
+            console.log(hospital);
+            //Return hospital via lat and lng
+            this.hospital = this.hospitals.find(
+                (x) => x.latitude == hospital.lat && x.longitude == hospital.lng
+            );
             this.hospitalDialog = true;
             this.getDirection(this.center, hospital);
         },
@@ -251,7 +257,7 @@ export default {
             if (status == "RECIEVING") {
                 return "success";
             } else {
-                return "red";
+                return "error";
             }
         },
 
