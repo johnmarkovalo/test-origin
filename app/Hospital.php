@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Hospital extends Model
 {
     protected $fillable = [
-        'user_id', 'name', 'number', 'longitude', 'latitude','address', 'status'
+        'user_id', 'name', 'number', 'longitude', 'latitude', 'address', 'status'
     ];
 
     protected $hidden = [

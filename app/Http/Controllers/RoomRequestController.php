@@ -23,22 +23,23 @@ class RoomRequestController extends Controller
     {
         $authenticatedUser = Auth::user();
 
-        if($authenticatedUser->role == 'ADMINISTRATOR')
-        {
-            $roomRequest = RoomRequest::with('occupant')
-                                        ->with('hospital_room')
-                                        ->get();
+        if ($authenticatedUser->role == 'ADMINISTRATOR') {
+            $roomRequest = RoomRequest::all();
             return $roomRequest;
-        }
-        elseif($authenticatedUser->role == 'HOSPITAL')
-        {
+        } elseif ($authenticatedUser->role == 'HOSPITAL') {
             $hospital = Hospital::where('user_id', $authenticatedUser->id)->first();
             // dd($hospital->id);
             $occupiedRoom = $hospital->hospitalRooms->load("roomRequests");
-            dd($occupiedRoom);
+            //Merge all the room requests of each room into one array
+            $roomRequests = [];
+            foreach ($occupiedRoom as $room) {
+                foreach ($room->roomRequests as $request) {
+                    array_push($roomRequests, $request);
+                }
+            }
 
+            return $roomRequests;
         }
-
     }
 
     /**
@@ -68,7 +69,7 @@ class RoomRequestController extends Controller
                 'type' => $request->input('type'),
                 'status' => $request->input('status')
             ])
-            );
+        );
 
         $updateRoom = HospitalRoom::where('id', $request->input('hospital_room_id'))->update(array('status' => 'OCCUPIED'));
 
