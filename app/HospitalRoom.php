@@ -14,6 +14,8 @@ class HospitalRoom extends Model
         'created_at', 'updated_at'
     ];
 
+    protected $with = ['hospital'];
+
     public function hospital()
     {
         return $this->belongsTo(Hospital::class);
@@ -29,4 +31,3 @@ class HospitalRoom extends Model
         return $this->hasMany(RoomRequest::class);
     }
 }
-

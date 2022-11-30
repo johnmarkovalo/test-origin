@@ -39,7 +39,7 @@
                             <template v-slot:item.id="{ item }">
                                 {{
                                     tableRequests
-                                        .map(function(x) {
+                                        .map(function (x) {
                                             return x.id;
                                         })
                                         .indexOf(item.id) + 1
@@ -148,20 +148,22 @@ export default {
                 address: null,
                 number: null,
                 lat: 6.9214,
-                lng: 122.079
+                lng: 122.079,
             },
 
             tableRequestHeaders: [
                 { text: "ID", value: "id" },
-                { text: "Name", value: "name" },
-                { text: "Address", value: "address" },
-                { text: "Contract", value: "number" },
+                { text: "Name", value: "occupant.name" },
+                { text: "Address", value: "occupant.address" },
+                { text: "Contract", value: "occupant.number" },
+                { text: "Hospital", value: "hospital_room.hospital.name" },
+                { text: "Room", value: "hospital_room.room_no" },
                 {
                     text: "Actions",
                     value: "actions",
                     sortable: false,
-                    align: "center"
-                }
+                    align: "center",
+                },
             ],
 
             editedRequestIndex: -1,
@@ -170,7 +172,7 @@ export default {
                 address: null,
                 number: null,
                 latitude: 6.9214,
-                longitude: 122.079
+                longitude: 122.079,
             },
 
             rooms: [],
@@ -184,36 +186,36 @@ export default {
 
             rules: {
                 required: [
-                    v => !!v || "Field is required",
-                    v =>
+                    (v) => !!v || "Field is required",
+                    (v) =>
                         (!!v && v.length <= 255) ||
-                        " Field should not be more than 255 characters"
+                        " Field should not be more than 255 characters",
                 ],
                 emailRules: [
-                    v => !!v || "E-mail is required",
-                    v =>
+                    (v) => !!v || "E-mail is required",
+                    (v) =>
                         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
                         "E-mail must be valid",
-                    v =>
+                    (v) =>
                         (!!v && v.length <= 255) ||
-                        "E-mail must not be more than 255 characters"
+                        "E-mail must not be more than 255 characters",
                 ],
                 hospitalRules: [
-                    v => !!v || "Request Number is required",
-                    v =>
+                    (v) => !!v || "Request Number is required",
+                    (v) =>
                         (!!v && v.length >= 10) ||
                         "Request Number must be 11 characters",
-                    v =>
+                    (v) =>
                         (!!v && v.length < 11) ||
-                        "Request Number must not be more than 11 characters"
+                        "Request Number must not be more than 11 characters",
                 ],
                 passwordRules: [
-                    v => !!v || "Password is required",
-                    v =>
+                    (v) => !!v || "Password is required",
+                    (v) =>
                         (!!v && v.length >= 8) ||
-                        "Password must be more than 8 characters"
-                ]
-            }
+                        "Password must be more than 8 characters",
+                ],
+            },
         };
     },
 
@@ -222,7 +224,7 @@ export default {
             return this.editedRequestIndex === -1
                 ? "New Request"
                 : "Edit Request";
-        }
+        },
     },
 
     mounted() {
@@ -238,10 +240,10 @@ export default {
             this.componentOverlay = true;
             axios
                 .get("/api/v1/roomrequests")
-                .then(response => {
-                    this.tableRequests = response.data.data;
+                .then((response) => {
+                    this.tableRequests = response.data;
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.log(error);
                 })
                 .finally(() => {
@@ -256,10 +258,10 @@ export default {
             this.componentOverlay = true;
             axios
                 .get("/api/v1/hospitalrooms")
-                .then(response => {
+                .then((response) => {
                     this.rooms = response.data.data;
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.log(error);
                 })
                 .finally(() => {
@@ -274,10 +276,10 @@ export default {
             this.componentOverlay = true;
             axios
                 .get("/api/v1/occupants")
-                .then(response => {
+                .then((response) => {
                     this.occupants = response.data.data;
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.log(error);
                 })
                 .finally(() => {
@@ -298,9 +300,9 @@ export default {
         createRequest() {
             axios
                 .post("/api/v1/roomrequests", {
-                    ...this.editedRequestInformation
+                    ...this.editedRequestInformation,
                 })
-                .then(response => {
+                .then((response) => {
                     this.fetchRequests();
                     this.closeRequestForm();
                     swal.fire({
@@ -310,10 +312,10 @@ export default {
                         icon: "success",
                         text: "Successfully Created",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
                     });
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.componentOverlay = false;
 
                     if (error.response.status == 422) {
@@ -336,10 +338,10 @@ export default {
                 .put(
                     "/api/v1/roomrequests/" + this.editedRequestInformation.id,
                     {
-                        ...this.editedRequestInformation
+                        ...this.editedRequestInformation,
                     }
                 )
-                .then(response => {
+                .then((response) => {
                     this.fetchRequests();
                     this.closeRequestForm();
                     swal.fire({
@@ -349,10 +351,10 @@ export default {
                         icon: "success",
                         text: "Successfully Updated",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
                     });
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.componentOverlay = false;
 
                     if (error.response.status == 422) {
@@ -372,9 +374,9 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Yes, delete it!",
             })
-                .then(result => {
+                .then((result) => {
                     if (result.value) {
                         axios
                             .delete("/api/v1/roomrequests/" + hospital.id)
@@ -387,7 +389,7 @@ export default {
                                     "success"
                                 );
                             })
-                            .catch(error => {
+                            .catch((error) => {
                                 swal.fire(
                                     "Failed!",
                                     "There was something wrong.",
@@ -416,7 +418,7 @@ export default {
             this.deleteDialog = false;
             setTimeout(() => {
                 this.formRequestErrors = {
-                    name: null
+                    name: null,
                 };
                 this.editedRequestInformation = Object.assign(
                     {},
@@ -424,7 +426,7 @@ export default {
                 );
                 this.editedRequestIndex = -1;
             }, 500);
-        }
-    }
+        },
+    },
 };
 </script>
