@@ -118,34 +118,34 @@ export default {
             error: null,
             rules: {
                 usernameRules: [
-                    v => !!v || "Username is required",
-                    v =>
+                    (v) => !!v || "Username is required",
+                    (v) =>
                         (!!v && v.length <= 255) ||
-                        "Username must be more than 255 characters"
+                        "Username must be more than 255 characters",
                 ],
                 emailRules: [
-                    v => !!v || "E-mail is required",
-                    v =>
+                    (v) => !!v || "E-mail is required",
+                    (v) =>
                         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
                         "E-mail must be valid",
-                    v =>
+                    (v) =>
                         (!!v && v.length <= 255) ||
-                        "E-mail must be more than 255 characters"
+                        "E-mail must be more than 255 characters",
                 ],
                 passwordRules: [
-                    v => !!v || "Password is required",
-                    v =>
+                    (v) => !!v || "Password is required",
+                    (v) =>
                         (!!v && v.length >= 6) ||
                         "Password must be atleast 6 characters",
-                    v =>
+                    (v) =>
                         (!!v && v.length <= 255) ||
-                        "Password must be more than 255 characters"
-                ]
+                        "Password must be more than 255 characters",
+                ],
             },
 
             fab: null,
             color: "",
-            flat: null
+            flat: null,
         };
     },
 
@@ -156,9 +156,9 @@ export default {
                 axios
                     .post("/api/v1/login", {
                         username: this.username,
-                        password: this.password
+                        password: this.password,
                     })
-                    .then(response => {
+                    .then((response) => {
                         if (response.data.errors) {
                             this.error = response.data.errors;
                             return;
@@ -190,6 +190,12 @@ export default {
                                 response.data.hospital.id
                             );
                             this.$router.push("hospital/rooms");
+                        } else if (user_type == "ISOLATION") {
+                            sessionStorage.setItem(
+                                "profile-id",
+                                response.data.isolation.id
+                            );
+                            this.$router.push("isolation/rooms");
                         } else if (user_type == "OCCUPANT") {
                             sessionStorage.setItem(
                                 "occupant-name",
@@ -207,10 +213,10 @@ export default {
                             icon: "success",
                             text: "Successfully Logined",
                             showConfirmButton: false,
-                            timer: 1500
+                            timer: 1500,
                         });
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         if (error.response.data == "Unauthenticated.") {
                             sessionStorage.clear();
                             this.$router.push("/login");
@@ -225,7 +231,7 @@ export default {
                             swal.fire("Invalid Credentials!", error, "error");
                         }
                     })
-                    .finally(x => {
+                    .finally((x) => {
                         this.loading = false;
                     });
             }
@@ -238,7 +244,7 @@ export default {
         },
         toTop() {
             this.$vuetify.goTo(0);
-        }
+        },
     },
 
     watch: {
@@ -250,7 +256,7 @@ export default {
                 this.color = "transparent";
                 this.flat = true;
             }
-        }
+        },
     },
 
     created() {
@@ -268,12 +274,14 @@ export default {
                 return next("admin/hospitals");
             } else if (sessionStorage.getItem("user-type") == "HOSPITAL") {
                 return next("hospital/rooms");
+            } else if (sessionStorage.getItem("user-type") == "ISOLATION") {
+                return next("isolation/rooms");
             } else if (sessionStorage.getItem("user-type") == "OCCUPANT") {
                 return next("/");
             }
         }
         next();
-    }
+    },
 };
 </script>
 <style>

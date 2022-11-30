@@ -6,6 +6,7 @@ use App\Hospital;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Isolation;
 use App\Occupant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -28,6 +29,9 @@ class AuthController extends Controller
             } elseif ($user->role == 'HOSPITAL') {
                 $hospital = Hospital::where('user_id', $user->id)->first();
                 return response(["token" => $token, "user" => $user, "hospital" => $hospital]);
+            } elseif ($user->role == 'ISOLATION') {
+                $isolation = Isolation::where('user_id', $user->id)->first();
+                return response(["token" => $token, "user" => $user, "isolation" => $isolation]);
             } elseif ($user->role == 'OCCUPANT') {
                 $occupant = Occupant::where('user_id', $user->id)->first();
                 return response(["token" => $token, "user" => $user, "occupant" => $occupant]);

@@ -48,8 +48,8 @@ export default {
     props: {
         opened: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
     data: () => ({
         logo: "favicon.ico",
@@ -58,59 +58,90 @@ export default {
                 to: "/admin/dashboard",
                 icon: "mdi-view-dashboard",
                 text: "Dashboard",
-                module: "adminDashboard"
+                module: "adminDashboard",
             },
             {
                 to: "/admin/hospitals",
                 icon: "mdi-hospital-building",
                 text: "Hospitals",
-                module: "adminHospital"
+                module: "adminHospital",
             },
-            // {
-            //     to: "/admin/hospital-rooms",
-            //     icon: "mdi-bed-empty",
-            //     text: "Rooms",
-            //     module: "adminRoom"
-            // },
+            {
+                to: "/admin/isolations",
+                icon: "mdi-home-group",
+                text: "Isolations",
+                module: "adminIsolation",
+            },
             {
                 to: "/admin/users",
                 icon: "mdi-account-circle",
                 text: "Occupants",
-                module: "adminUser"
+                module: "adminUser",
             },
             {
                 to: "/admin/room-requests",
                 icon: "mdi-bed",
-                text: "Room Requests",
-                module: "adminRequest"
+                text: "Hospital Room Requests",
+                module: "adminRequest",
+            },
+            {
+                to: "/admin/isolation-room-requests",
+                icon: "mdi-home",
+                text: "Isolation Room Requests",
+                module: "adminIsolationRequest",
             },
             //Hospital
             {
                 to: "/hospital/dashboard",
                 icon: "mdi-view-dashboard",
                 text: "Dashboard",
-                module: "hospitalDashboard"
+                module: "hospitalDashboard",
             },
             {
                 to: "/hospital/rooms",
                 icon: "mdi-bed-empty",
                 text: "Rooms",
-                module: "hospitalRoom"
+                module: "hospitalRoom",
             },
             {
                 to: "/hospital/users",
                 icon: "mdi-account-circle",
                 text: "Occupants",
-                module: "hospitalUser"
+                module: "hospitalUser",
             },
             {
                 to: "/hospital/room-requests",
                 icon: "mdi-bed",
                 text: "Room Requests",
-                module: "hospitalRequest"
-            }
+                module: "hospitalRequest",
+            },
+            //Isolation
+            {
+                to: "/isolation/dashboard",
+                icon: "mdi-view-dashboard",
+                text: "Dashboard",
+                module: "isolationDashboard",
+            },
+            {
+                to: "/isolation/rooms",
+                icon: "mdi-bed-empty",
+                text: "Rooms",
+                module: "isolationRoom",
+            },
+            {
+                to: "/isolation/users",
+                icon: "mdi-account-circle",
+                text: "Occupants",
+                module: "isolationUser",
+            },
+            {
+                to: "/isolation/room-requests",
+                icon: "mdi-bed",
+                text: "Room Requests",
+                module: "isolationRequest",
+            },
         ],
-        userRole: sessionStorage.getItem("user-type")
+        userRole: sessionStorage.getItem("user-type"),
         // userRole: "HOSPITAL"
     }),
     computed: {
@@ -121,11 +152,11 @@ export default {
             },
             set(val) {
                 this.setDrawer(val);
-            }
+            },
         },
         items() {
             return this.$t("Layout.View.items");
-        }
+        },
     },
 
     methods: {
@@ -134,14 +165,20 @@ export default {
             var modules = {
                 adminDashboard: true,
                 adminHospital: true,
+                adminIsolation: true,
                 adminUser: true,
                 adminRequest: true,
+                adminIsolationRequest: true,
                 // adminRoom: true,
                 //hospital
                 // hospitalDashboard: true,
                 hospitalRoom: true,
                 hospitalUser: true,
-                hospitalRequest: true
+                hospitalRequest: true,
+
+                isolationRoom: true,
+                isolationUser: true,
+                isolationRequest: true,
             };
             var permissions = {
                 ADMINISTRATOR: {
@@ -149,7 +186,11 @@ export default {
                     hospitalDashboard: false,
                     hospitalRequest: false,
                     hospitalRoom: false,
-                    hospitalUser: false
+                    hospitalUser: false,
+                    isolationDashboard: false,
+                    isolationRequest: false,
+                    isolationRoom: false,
+                    isolationUser: false,
                 },
                 HOSPITAL: {
                     ...modules,
@@ -157,8 +198,24 @@ export default {
                     adminDashboard: false,
                     adminHospital: false,
                     adminUser: false,
-                    adminRoom: false
-                }
+                    adminRoom: false,
+
+                    isolationRoom: false,
+                    isolationUser: false,
+                    isolationRequest: false,
+                },
+                ISOLATION: {
+                    ...modules,
+                    adminRequest: false,
+                    adminDashboard: false,
+                    adminHospital: false,
+                    adminUser: false,
+                    adminRoom: false,
+
+                    hospitalRoom: false,
+                    hospitalUser: false,
+                    hospitalRequest: false,
+                },
             };
             return permissions[this.userRole][module];
         },
@@ -166,7 +223,7 @@ export default {
         logout() {
             axios
                 .get("/api/v1/logout")
-                .then(response => {
+                .then((response) => {
                     if (response.data.errors) {
                         this.error = response.data.errors;
                         return;
@@ -174,14 +231,14 @@ export default {
                     sessionStorage.clear();
                     this.$router.push("/login");
                 })
-                .catch(error => {
+                .catch((error) => {
                     if (error.response.data.message == "Unauthenticated.") {
                         sessionStorage.clear();
                         this.$router.push("/login");
                     }
                 });
-        }
-    }
+        },
+    },
 };
 </script>
 
