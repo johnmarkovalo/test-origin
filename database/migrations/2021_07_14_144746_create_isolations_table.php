@@ -20,8 +20,8 @@ class CreateIsolationsTable extends Migration
             $table->string('address');
             $table->string('number');
             $table->string('status');
-            $table->double('latitude', 10, 2);
-            $table->double('longitude', 10, 2);
+            $table->double('latitude', 15, 12);
+            $table->double('longitude', 15, 12);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

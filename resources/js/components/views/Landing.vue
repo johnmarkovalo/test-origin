@@ -60,7 +60,7 @@
                         <v-col cols="12">
                             <GmapMap
                                 ref="map"
-                                style="width: 100%; height: 800px;"
+                                style="width: 100%; height: 800px"
                                 :zoom="16"
                                 :center="center"
                             >
@@ -76,6 +76,15 @@
                                     @click="showHospital(latlng)"
                                     icon="https://res.cloudinary.com/mactimestwo/image/upload/v1630607746/marker_mqvzre.ico"
                                 />
+
+                                <GmapMarker
+                                    v-for="latlng in isolationsLatLng"
+                                    :key="latlng.id"
+                                    :position="latlng"
+                                    :clickable="true"
+                                    @click="showHospital(latlng)"
+                                    icon="https://res.cloudinary.com/mactimestwo/image/upload/v1669825557/isolation_hkfz2q.ico"
+                                />
                             </GmapMap>
                         </v-col>
                     </v-row>
@@ -86,7 +95,7 @@
         <v-dialog v-model="hospitalDialog" max-width="400px">
             <v-card>
                 <v-card-title>
-                    <span class="headline">Hospital Information</span>
+                    <span class="headline">Hospital/Isolation Information</span>
                     <v-spacer />
                     <v-icon
                         large
@@ -153,25 +162,14 @@ export default {
             color: "",
             flat: null,
             hospital: { id: 1025167, lat: 6.9214, lng: 122.075 },
-            hospitals: [
-                // { id: 1025167, lat: 6.9214, lng: 122.075 },
-                // { id: 1025168, lat: 6.9225, lng: 122.0771 },
-                // { id: 1025169, lat: 6.9246, lng: 122.0712 },
-                // { id: 1025170, lat: 6.9237, lng: 122.0783 },
-                // { id: 1025171, lat: 6.9258, lng: 122.0794 }
-            ],
-            hospitalsLatLng: [
-                // { id: 1025167, lat: 6.9214, lng: 122.075 },
-                // { id: 1025168, lat: 6.9225, lng: 122.0771 },
-                // { id: 1025169, lat: 6.9246, lng: 122.0712 },
-                // { id: 1025170, lat: 6.9237, lng: 122.0783 },
-                // { id: 1025171, lat: 6.9258, lng: 122.0794 }
-            ],
+            hospitals: [],
+            hospitalsLatLng: [],
+            isolationsLatLng: [],
             //Google Maps Variables
             center: { lat: 6.9214, lng: 122.079 },
             address: { lat: 6.9214, lng: 122.079 },
             //Modals
-            hospitalDialog: false
+            hospitalDialog: false,
         };
     },
 
@@ -188,26 +186,30 @@ export default {
 
         fetchHospitals() {
             this.hospitalsLatLng = [];
+            this.isolationsLatLng = [];
             axios
                 .get("/api/v1/nearbyhospitals", {
                     params: {
                         lat: this.center.lat,
-                        lng: this.center.lng
-                    }
+                        lng: this.center.lng,
+                    },
                 })
-                .then(response => {
+                .then((response) => {
                     this.hospitals = response.data.nearby;
                     let hospitals = response.data.nearby;
-                    hospitals.forEach(hospital => {
+                    hospitals.forEach((hospital) => {
                         var position = {
                             id: hospital.id,
                             lat: hospital.latitude,
-                            lng: hospital.longitude
+                            type: hospital.type,
+                            lng: hospital.longitude,
                         };
-                        this.hospitalsLatLng.push(position);
+                        if (hospital.type == "HOSPITAL")
+                            this.hospitalsLatLng.push(position);
+                        else this.isolationsLatLng.push(position);
                     });
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.log(error);
                 })
                 .finally(() => {
@@ -217,7 +219,7 @@ export default {
         },
 
         showHospital(hospital) {
-            this.hospital = this.hospitals.find(x => x.id === hospital.id);
+            this.hospital = this.hospitals.find((x) => x.id === hospital.id);
             this.hospitalDialog = true;
             this.getDirection(this.center, hospital);
         },
@@ -240,7 +242,7 @@ export default {
             var UserGeolocationLongitude = position.coords.longitude;
             this.center = {
                 lat: UserGeolocationLatitude,
-                lng: UserGeolocationLongitude
+                lng: UserGeolocationLongitude,
             };
             this.address = this.center;
         },
@@ -261,7 +263,7 @@ export default {
                     {
                         origin: user,
                         destination: hospital,
-                        travelMode: "DRIVING"
+                        travelMode: "DRIVING",
                     },
                     (result, status) => {
                         if (status === "OK") {
@@ -272,7 +274,7 @@ export default {
                     }
                 );
             });
-        }
+        },
     },
 
     watch: {
@@ -284,7 +286,7 @@ export default {
                 this.color = "transparent";
                 this.flat = true;
             }
-        }
+        },
     },
 
     created() {
@@ -301,10 +303,12 @@ export default {
     mounted() {
         // this.pusherInit();
         //Routes
-        this.$nextTick(function() {
+        this.$nextTick(function () {
             this.$gmapApiPromiseLazy().then(() => {
-                this.$options.directionsService = new google.maps.DirectionsService();
-                this.$options.directionsDisplay = new google.maps.DirectionsRenderer();
+                this.$options.directionsService =
+                    new google.maps.DirectionsService();
+                this.$options.directionsDisplay =
+                    new google.maps.DirectionsRenderer();
                 this.$options.directionsDisplay.setMap(
                     this.$refs.map.$mapObject
                 );
@@ -321,6 +325,6 @@ export default {
         //     }
         // }
         next();
-    }
+    },
 };
 </script>
