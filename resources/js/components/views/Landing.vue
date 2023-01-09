@@ -74,7 +74,7 @@
                                     :position="latlng"
                                     :clickable="true"
                                     @click="showHospital(latlng)"
-                                    icon="https://res.cloudinary.com/mactimestwo/image/upload/v1630607746/marker_mqvzre.ico"
+                                    icon="https://res.cloudinary.com/mactimestwo/image/upload/v1673279543/hospital_tdok61.ico"
                                 />
 
                                 <GmapMarker
