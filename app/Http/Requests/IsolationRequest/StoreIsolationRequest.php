@@ -30,6 +30,7 @@ class StoreIsolationRequest extends FormRequest
 
             'name' => 'required|min:8',
             'number' => 'required|min:8',
+            'tel_no' => 'required|min:8',
             'status' => 'required',
 
             'latitude' => 'required',

@@ -24,17 +24,18 @@ class StoreHospitalRequest extends FormRequest
     public function rules()
     {
         return [
-                'username' => 'required|unique:users,username',
-                'password' => 'required|min:8',
-                'role' => 'HOSPITAL',
+            'username' => 'required|unique:users,username',
+            'password' => 'required|min:8',
+            'role' => 'HOSPITAL',
 
-                'name' => 'required|min:8',
-                'number' => 'required|min:8',
-                'status' => 'required',
+            'name' => 'required|min:8',
+            'number' => 'required|min:8',
+            'tel_no' => 'required|min:8',
+            'status' => 'required',
 
-                'latitude' => 'required',
-                'longitude' => 'required',
-                'address' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'address' => 'required',
         ];
     }
 }

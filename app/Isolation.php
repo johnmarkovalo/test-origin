@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Isolation extends Model
 {
     protected $fillable = [
-        'user_id', 'name', 'number', 'longitude', 'latitude', 'address', 'status'
+        'user_id', 'name', 'number', 'tel_no', 'longitude', 'latitude', 'address', 'status'
     ];
 
     protected $hidden = [

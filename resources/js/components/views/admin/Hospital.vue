@@ -106,7 +106,7 @@
                             </v-col>
                         </v-row>
                         <v-row justify="center">
-                            <v-col cols="12" md="4">
+                            <v-col cols="12" md="6">
                                 <v-text-field
                                     type="text"
                                     :rules="rules.required"
@@ -115,7 +115,7 @@
                                     label="Name"
                                 />
                             </v-col>
-                            <v-col cols="12" md="4">
+                            <v-col cols="12" md="6">
                                 <v-text-field
                                     type="text"
                                     :rules="rules.required"
@@ -124,7 +124,16 @@
                                     label="Number"
                                 />
                             </v-col>
-                            <v-col cols="12" md="4">
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    type="text"
+                                    :rules="rules.required"
+                                    :error-messages="formHospitalErrors.tel_no"
+                                    v-model="editedHospitalInformation.tel_no"
+                                    label="Telephone Number"
+                                />
+                            </v-col>
+                            <v-col cols="12" md="6">
                                 <v-select
                                     :items="statuses"
                                     :rules="rules.required"
@@ -203,7 +212,8 @@ export default {
                 { text: "ID", value: "id" },
                 { text: "Name", value: "name" },
                 { text: "Address", value: "address" },
-                { text: "Contract", value: "number" },
+                { text: "Phone Number", value: "number" },
+                { text: "Telephone Number", value: "tel_no" },
                 {
                     text: "Actions",
                     value: "actions",
