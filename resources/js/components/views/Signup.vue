@@ -59,7 +59,85 @@
                                                                 label="Contact Number"
                                                             ></v-text-field
                                                         ></v-col>
-                                                        <v-col cols="12" md="6">
+                                                        <v-col cols="12" md="6"
+                                                            ><v-select
+                                                                :items="[
+                                                                    'MALE',
+                                                                    'FEMALE',
+                                                                ]"
+                                                                v-model="
+                                                                    user.gender
+                                                                "
+                                                                :error-messages="
+                                                                    formSignUpError.gender
+                                                                "
+                                                                :rules="
+                                                                    rules.required
+                                                                "
+                                                                label="Gender"
+                                                            ></v-select
+                                                        ></v-col>
+                                                        <v-col cols="12" md="6"
+                                                            ><v-dialog
+                                                                ref="birthdateDialog"
+                                                                v-model="
+                                                                    birthdateDialog
+                                                                "
+                                                                :return-value.sync="
+                                                                    user.birthdate
+                                                                "
+                                                                width="290px"
+                                                            >
+                                                                <template
+                                                                    v-slot:activator="{
+                                                                        on,
+                                                                    }"
+                                                                >
+                                                                    <v-text-field
+                                                                        v-model="
+                                                                            user.birthdate
+                                                                        "
+                                                                        label="Birthday"
+                                                                        readonly
+                                                                        v-on="
+                                                                            on
+                                                                        "
+                                                                    />
+                                                                </template>
+                                                                <v-date-picker
+                                                                    v-model="
+                                                                        user.birthdate
+                                                                    "
+                                                                    color="primary"
+                                                                    scrollable
+                                                                    dark
+                                                                >
+                                                                    <v-spacer></v-spacer>
+                                                                    <v-btn
+                                                                        text
+                                                                        color="primary"
+                                                                        @click="
+                                                                            birthdateDialog = false
+                                                                        "
+                                                                        >Cancel</v-btn
+                                                                    >
+                                                                    <v-btn
+                                                                        text
+                                                                        color="primary"
+                                                                        @click="
+                                                                            $refs.birthdateDialog.save(
+                                                                                user.birthdate
+                                                                            )
+                                                                        "
+                                                                        >OK</v-btn
+                                                                    >
+                                                                </v-date-picker>
+                                                            </v-dialog></v-col
+                                                        >
+                                                        <v-col
+                                                            cols="12"
+                                                            md="12"
+                                                        >
                                                             <v-text-field
                                                                 type="text"
                                                                 :error-messages="
@@ -75,7 +153,7 @@
                                                             ><v-select
                                                                 :items="[
                                                                     'COVID',
-                                                                    'NON_COVID'
+                                                                    'NON_COVID',
                                                                 ]"
                                                                 v-model="
                                                                     user.status
@@ -84,6 +162,21 @@
                                                                     rules.required
                                                                 "
                                                                 label="Status"
+                                                            ></v-select
+                                                        ></v-col>
+                                                        <v-col cols="12" md="6"
+                                                            ><v-select
+                                                                :items="[
+                                                                    'VACCINATED',
+                                                                    'NON_VACCINATED',
+                                                                ]"
+                                                                v-model="
+                                                                    user.vaccination
+                                                                "
+                                                                :rules="
+                                                                    rules.required
+                                                                "
+                                                                label="Vaccination Status"
                                                             ></v-select
                                                         ></v-col>
                                                         <v-col cols="12" md="6">
@@ -112,7 +205,8 @@
                                                                         : 'mdi-eye'
                                                                 "
                                                                 @click:append="
-                                                                    visible = !visible
+                                                                    visible =
+                                                                        !visible
                                                                 "
                                                                 :rules="
                                                                     rules.passwordRules
@@ -174,13 +268,15 @@ export default {
     data() {
         return {
             loading: false,
+            birthdateDialog: false,
             user: {
                 name: null,
                 number: null,
                 address: null,
                 status: null,
+                birthdate: new Date().toISOString().substr(0, 10),
                 username: null,
-                password: null
+                password: null,
             },
             visible: false,
             formSignUpError: {
@@ -189,44 +285,44 @@ export default {
                 address: null,
                 status: null,
                 username: null,
-                password: null
+                password: null,
             },
             rules: {
                 required: [
-                    v => !!v || "Field is required",
-                    v =>
+                    (v) => !!v || "Field is required",
+                    (v) =>
                         (!!v && v.length <= 255) ||
-                        " Field should not be more than 255 characters"
+                        " Field should not be more than 255 characters",
                 ],
                 emailRules: [
-                    v => !!v || "E-mail is required",
-                    v =>
+                    (v) => !!v || "E-mail is required",
+                    (v) =>
                         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
                         "E-mail must be valid",
-                    v =>
+                    (v) =>
                         (!!v && v.length <= 255) ||
-                        "E-mail must not be more than 255 characters"
+                        "E-mail must not be more than 255 characters",
                 ],
                 contactRules: [
-                    v => !!v || "Contact Number is required",
-                    v =>
+                    (v) => !!v || "Contact Number is required",
+                    (v) =>
                         (!!v && v.length >= 10) ||
                         "Contact Number must be 11 characters",
-                    v =>
+                    (v) =>
                         (!!v && v.length < 11) ||
-                        "Contact Number must not be more than 11 characters"
+                        "Contact Number must not be more than 11 characters",
                 ],
                 passwordRules: [
-                    v => !!v || "Password is required",
-                    v =>
+                    (v) => !!v || "Password is required",
+                    (v) =>
                         (!!v && v.length >= 8) ||
-                        "Password must be more than 8 characters"
-                ]
+                        "Password must be more than 8 characters",
+                ],
             },
 
             fab: null,
             color: "",
-            flat: null
+            flat: null,
         };
     },
 
@@ -238,15 +334,15 @@ export default {
                     .post("/api/v1/register", {
                         ...this.user,
                         type: "GUEST",
-                        password_confirmation: this.user.password
+                        password_confirmation: this.user.password,
                     })
-                    .then(response => {
+                    .then((response) => {
                         axios
                             .post("/api/v1/login", {
                                 username: this.user.username,
-                                password: this.user.password
+                                password: this.user.password,
                             })
-                            .then(response => {
+                            .then((response) => {
                                 if (response.data.errors) {
                                     this.error = response.data.errors;
                                     return;
@@ -285,10 +381,10 @@ export default {
                                     icon: "success",
                                     text: "Successfully Registered",
                                     showConfirmButton: false,
-                                    timer: 1500
+                                    timer: 1500,
                                 });
                             })
-                            .catch(error => {
+                            .catch((error) => {
                                 if (
                                     error.response.data.message ==
                                     "Unauthenticated."
@@ -308,11 +404,11 @@ export default {
                                     );
                                 }
                             })
-                            .finally(x => {
+                            .finally((x) => {
                                 this.loading = false;
                             });
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         if (error.response.status == 422) {
                             this.formSignUpError = error.response.data.errors;
                             this.loading = false;
@@ -320,7 +416,7 @@ export default {
                             console.log(error);
                         }
                     })
-                    .finally(x => {});
+                    .finally((x) => {});
             }
         },
 
@@ -332,7 +428,7 @@ export default {
 
         toTop() {
             this.$vuetify.goTo(0);
-        }
+        },
     },
 
     watch: {
@@ -344,7 +440,7 @@ export default {
                 this.color = "transparent";
                 this.flat = true;
             }
-        }
+        },
     },
 
     created() {
@@ -365,7 +461,7 @@ export default {
             }
         }
         next();
-    }
+    },
 };
 </script>
 <style>

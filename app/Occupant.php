@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Occupant extends Model
 {
     protected $fillable = [
-        'user_id', 'name', 'type', 'status', 'address', 'number'
+        'user_id', 'name', 'type', 'status', 'address', 'number', 'gender', 'birthdate', 'vaccination'
     ];
 
     protected $hidden = [
-     'created_at', 'updated_at'
+        'created_at', 'updated_at'
     ];
 
     public function user()

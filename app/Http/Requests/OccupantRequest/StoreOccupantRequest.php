@@ -31,6 +31,9 @@ class StoreOccupantRequest extends FormRequest
             'type' => 'required',
             'status' => 'required',
             'number' => 'required',
+            'gender' => 'required',
+            'birthdate' => 'required',
+            'vaccination' => 'required',
         ];
     }
 }
