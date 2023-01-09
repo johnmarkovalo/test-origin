@@ -10,10 +10,10 @@
 }
 
 .svg:nth-child(1) {
-  left: 40%;
-  animation: raise1 19s linear infinite;
-  animation-delay: -2s;
-  transform: scale(-0.3) rotate(265deg);
+  left: -11%;
+  animation: raise1 18s linear infinite;
+  animation-delay: -4s;
+  transform: scale(-0.3) rotate(212deg);
   z-index: -6;
   filter: blur(-5px);
 }
@@ -21,15 +21,15 @@
 @keyframes raise1 {
   to {
     bottom: 150vh;
-    transform: scale(-0.3) rotate(34deg);
+    transform: scale(-0.3) rotate(226deg);
   }
 }
 
 .svg:nth-child(2) {
-  left: 9%;
-  animation: raise2 19s linear infinite;
-  animation-delay: 0s;
-  transform: scale(0) rotate(265deg);
+  left: 67%;
+  animation: raise2 11s linear infinite;
+  animation-delay: -3s;
+  transform: scale(0) rotate(35deg);
   z-index: -5;
   filter: blur(-4px);
 }
@@ -37,15 +37,15 @@
 @keyframes raise2 {
   to {
     bottom: 150vh;
-    transform: scale(0) rotate(129deg);
+    transform: scale(0) rotate(214deg);
   }
 }
 
 .svg:nth-child(3) {
-  left: 61%;
-  animation: raise3 17s linear infinite;
-  animation-delay: -2s;
-  transform: scale(0.3) rotate(220deg);
+  left: 10%;
+  animation: raise3 18s linear infinite;
+  animation-delay: -3s;
+  transform: scale(0.3) rotate(350deg);
   z-index: -4;
   filter: blur(-3px);
 }
@@ -53,15 +53,15 @@
 @keyframes raise3 {
   to {
     bottom: 150vh;
-    transform: scale(0.3) rotate(158deg);
+    transform: scale(0.3) rotate(142deg);
   }
 }
 
 .svg:nth-child(4) {
-  left: 51%;
-  animation: raise4 9s linear infinite;
-  animation-delay: -2s;
-  transform: scale(0.6) rotate(54deg);
+  left: 81%;
+  animation: raise4 12s linear infinite;
+  animation-delay: -4s;
+  transform: scale(0.6) rotate(229deg);
   z-index: -3;
   filter: blur(-2px);
 }
@@ -69,15 +69,15 @@
 @keyframes raise4 {
   to {
     bottom: 150vh;
-    transform: scale(0.6) rotate(149deg);
+    transform: scale(0.6) rotate(207deg);
   }
 }
 
 .svg:nth-child(5) {
-  left: 78%;
-  animation: raise5 9s linear infinite;
-  animation-delay: -2s;
-  transform: scale(0.9) rotate(187deg);
+  left: 97%;
+  animation: raise5 19s linear infinite;
+  animation-delay: 0s;
+  transform: scale(0.9) rotate(129deg);
   z-index: -2;
   filter: blur(-1px);
 }
@@ -85,15 +85,15 @@
 @keyframes raise5 {
   to {
     bottom: 150vh;
-    transform: scale(0.9) rotate(230deg);
+    transform: scale(0.9) rotate(241deg);
   }
 }
 
 .svg:nth-child(6) {
-  left: 90%;
-  animation: raise6 10s linear infinite;
-  animation-delay: -2s;
-  transform: scale(1.2) rotate(273deg);
+  left: 96%;
+  animation: raise6 18s linear infinite;
+  animation-delay: -1s;
+  transform: scale(1.2) rotate(58deg);
   z-index: -1;
   filter: blur(0px);
 }
@@ -101,15 +101,15 @@
 @keyframes raise6 {
   to {
     bottom: 150vh;
-    transform: scale(1.2) rotate(320deg);
+    transform: scale(1.2) rotate(58deg);
   }
 }
 
 .svg:nth-child(7) {
-  left: 43%;
-  animation: raise7 14s linear infinite;
-  animation-delay: -4s;
-  transform: scale(1.5) rotate(243deg);
+  left: 59%;
+  animation: raise7 15s linear infinite;
+  animation-delay: 0s;
+  transform: scale(1.5) rotate(203deg);
   z-index: 0;
   filter: blur(1px);
 }
@@ -117,15 +117,15 @@
 @keyframes raise7 {
   to {
     bottom: 150vh;
-    transform: scale(1.5) rotate(86deg);
+    transform: scale(1.5) rotate(346deg);
   }
 }
 
 .svg:nth-child(8) {
-  left: 47%;
-  animation: raise8 7s linear infinite;
-  animation-delay: -2s;
-  transform: scale(1.8) rotate(181deg);
+  left: 67%;
+  animation: raise8 15s linear infinite;
+  animation-delay: 0s;
+  transform: scale(1.8) rotate(256deg);
   z-index: 1;
   filter: blur(2px);
 }
@@ -133,15 +133,15 @@
 @keyframes raise8 {
   to {
     bottom: 150vh;
-    transform: scale(1.8) rotate(122deg);
+    transform: scale(1.8) rotate(142deg);
   }
 }
 
 .svg:nth-child(9) {
-  left: 81%;
-  animation: raise9 11s linear infinite;
-  animation-delay: 0s;
-  transform: scale(2.1) rotate(8deg);
+  left: 40%;
+  animation: raise9 9s linear infinite;
+  animation-delay: -1s;
+  transform: scale(2.1) rotate(92deg);
   z-index: 2;
   filter: blur(3px);
 }
@@ -149,15 +149,15 @@
 @keyframes raise9 {
   to {
     bottom: 150vh;
-    transform: scale(2.1) rotate(175deg);
+    transform: scale(2.1) rotate(333deg);
   }
 }
 
 .svg:nth-child(10) {
-  left: 55%;
-  animation: raise10 8s linear infinite;
-  animation-delay: 0s;
-  transform: scale(2.4) rotate(198deg);
+  left: 13%;
+  animation: raise10 12s linear infinite;
+  animation-delay: -1s;
+  transform: scale(2.4) rotate(131deg);
   z-index: 3;
   filter: blur(4px);
 }
@@ -165,7 +165,7 @@
 @keyframes raise10 {
   to {
     bottom: 150vh;
-    transform: scale(2.4) rotate(202deg);
+    transform: scale(2.4) rotate(149deg);
   }
 }
 
