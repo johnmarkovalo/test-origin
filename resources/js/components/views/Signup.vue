@@ -156,12 +156,12 @@
                                                                     'NON_COVID',
                                                                 ]"
                                                                 v-model="
-                                                                    user.status
+                                                                    user.type
                                                                 "
                                                                 :rules="
                                                                     rules.required
                                                                 "
-                                                                label="Status"
+                                                                label="Type"
                                                             ></v-select
                                                         ></v-col>
                                                         <v-col cols="12" md="6"
@@ -333,7 +333,7 @@ export default {
                 axios
                     .post("/api/v1/register", {
                         ...this.user,
-                        type: "GUEST",
+                        status: "GUEST",
                         password_confirmation: this.user.password,
                     })
                     .then((response) => {

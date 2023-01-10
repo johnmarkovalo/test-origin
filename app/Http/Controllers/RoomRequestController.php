@@ -106,16 +106,16 @@ class RoomRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRoomRequestRequest $request, RoomRequest $roomRequest)
+    public function update(UpdateRoomRequestRequest $request, $id)
     {
-        //
-        $roomRequest = RoomRequest::findOrFail($roomRequest);
-        $roomRequest->update($request->validated());
-
-        $occupant = Occupant::findOrFail($roomRequest->occupant_id);
-        $occupant->update($request->validated());
-
-        return new RoomRequestResource($roomRequest);
+        $roomRequest = RoomRequest::where('id', $id)->first();
+        $roomRequest->update($request->all());
+        if ($request->input('status') == 'DISCHARGED') {
+            $updateRoom = HospitalRoom::where('id', $roomRequest->hospital_room_id)->update(array('status' => 'VACANT'));
+        } else {
+            $updateRoom = HospitalRoom::where('id', $roomRequest->hospital_room_id)->update(array('status' => 'OCCUPIED'));
+        }
+        return $roomRequest;
     }
 
     /**

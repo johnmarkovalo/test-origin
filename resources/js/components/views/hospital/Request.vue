@@ -338,7 +338,8 @@ export default {
                 .put(
                     "/api/v1/roomrequests/" + this.editedRequestInformation.id,
                     {
-                        ...this.editedRequestInformation,
+                        type: this.editedRequestInformation.type,
+                        status: this.editedRequestInformation.status,
                     }
                 )
                 .then((response) => {

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OccupantHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,9 @@ Route::group(['middleware' => 'forceJsonResponse'], function () {
                 Route::apiResource('isolationrooms', 'IsolationRoomController');
                 Route::apiResource('roomrequests', 'RoomRequestController');
                 Route::apiResource('isolationroomrequests', 'IsolationRoomRequestController');
+                Route::post('/occupants/{occupant_id}/history', [OccupantHistoryController::class, 'store']);
+                Route::put('/occupants/{occupant_id}/history/{id}', [OccupantHistoryController::class, 'update']);
+                Route::delete('/occupants/{occupant_id}/history/{id}', [OccupantHistoryController::class, 'destroy']);
 
                 // Route::apiResource();
 

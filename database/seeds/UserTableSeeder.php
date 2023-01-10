@@ -66,7 +66,7 @@ class UserTableSeeder extends Seeder
             'status' => 'ADMITTED',
             'type' => 'COVID',
             'number' => '09664375522',
-            'gender' => 'male',
+            'gender' => 'MALE',
             'vaccination' => 'VACCINATED',
             'birthdate' => '1999-12-12',
             'address' => 'Dito lang sa tabe',

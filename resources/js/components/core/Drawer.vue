@@ -199,6 +199,8 @@ export default {
                     adminHospital: false,
                     adminUser: false,
                     adminRoom: false,
+                    adminIsolation: false,
+                    adminIsolationRequest: false,
 
                     isolationRoom: false,
                     isolationUser: false,
@@ -211,6 +213,8 @@ export default {
                     adminHospital: false,
                     adminUser: false,
                     adminRoom: false,
+                    adminIsolation: false,
+                    adminIsolationRequest: false,
 
                     hospitalRoom: false,
                     hospitalUser: false,

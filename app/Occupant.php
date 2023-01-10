@@ -14,6 +14,10 @@ class Occupant extends Model
         'created_at', 'updated_at'
     ];
 
+    protected $with = [
+        'occupantHistory'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -27,5 +31,10 @@ class Occupant extends Model
     public function roomRequest()
     {
         return $this->belongsTo(RoomRequest::class);
+    }
+
+    public function occupantHistory()
+    {
+        return $this->hasMany(OccupantHistory::class);
     }
 }
