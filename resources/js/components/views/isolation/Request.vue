@@ -339,7 +339,8 @@ export default {
                     "/api/v1/isolationroomrequests/" +
                         this.editedRequestInformation.id,
                     {
-                        ...this.editedRequestInformation,
+                        type: this.editedRequestInformation.type,
+                        status: this.editedRequestInformation.status,
                     }
                 )
                 .then((response) => {

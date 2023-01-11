@@ -15,7 +15,7 @@
                             :loading="tableLoading"
                             loading-text="Fetching occupants list... Please wait"
                             :headers="tableOccupantHeaders"
-                            :items="tableOccupants"
+                            :items="filteredOccupants"
                             :search="tableSearch"
                         >
                             <template v-slot:top>
@@ -23,6 +23,16 @@
                                     <v-toolbar-title class="headline"
                                         >Occupants</v-toolbar-title
                                     >
+                                    <div class="flex-grow-1"></div>
+                                    <v-checkbox
+                                        v-model="discharged"
+                                        label="Discharged"
+                                    ></v-checkbox>
+                                    <div class="flex-grow-1"></div>
+                                    <v-checkbox
+                                        v-model="covid"
+                                        label="Positive"
+                                    ></v-checkbox>
                                     <div class="flex-grow-1"></div>
                                     <v-btn
                                         small
@@ -497,6 +507,23 @@
                                                                 </v-icon>
                                                             </v-btn>
                                                         </v-col>
+                                                        <v-col cols="12">
+                                                            <p>
+                                                                Remarks:
+                                                                <strong>{{
+                                                                    log.remarks
+                                                                }}</strong>
+                                                            </p>
+                                                        </v-col>
+                                                        <v-col cols="12">
+                                                            <p>
+                                                                Additional
+                                                                Remarks:
+                                                                <strong>{{
+                                                                    log.additional_remarks
+                                                                }}</strong>
+                                                            </p>
+                                                        </v-col>
                                                     </v-row>
                                                 </v-card-text>
                                             </v-card>
@@ -626,13 +653,29 @@
                                         </v-time-picker>
                                     </v-dialog>
                                 </v-col>
+                                <v-col cols="12">
+                                    <v-textarea
+                                        v-model="
+                                            editedHistoryInformation.remarks
+                                        "
+                                        label="Remarks"
+                                    />
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-textarea
+                                        v-model="
+                                            editedHistoryInformation.additional_remarks
+                                        "
+                                        label="Additional Remarks"
+                                    />
+                                </v-col>
                             </v-row>
                         </v-col>
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn class="px-12" text @click="closeOccupantForm"
+                    <v-btn class="px-12" text @click="closeHistoryForm"
                         >Cancel</v-btn
                     >
                     <v-btn class="px-12" @click="saveHistory" color="primary"
@@ -658,6 +701,9 @@ export default {
             birthdateDialog: false,
             dateDialog: false,
             timeDialog: false,
+            //filter
+            discharged: false,
+            covid: false,
             //Occupant
             tableOccupants: [],
             formOccupantDialog: false,
@@ -754,6 +800,22 @@ export default {
             return this.editedOccupantIndex === -1
                 ? "New Occupant"
                 : "Edit Occupant";
+        },
+
+        filteredOccupants() {
+            let filteredOccupants = this.tableOccupants;
+            if (this.discharged) {
+                filteredOccupants = filteredOccupants.filter((occupant) => {
+                    return occupant.status == "DISCHARGED";
+                });
+            }
+            if (this.covid) {
+                filteredOccupants = filteredOccupants.filter((occupant) => {
+                    return occupant.type == "COVID";
+                });
+            }
+
+            return filteredOccupants;
         },
     },
 

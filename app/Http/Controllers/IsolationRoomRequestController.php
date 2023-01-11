@@ -106,16 +106,16 @@ class IsolationRoomRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateIsolationRoomRequestRequest $request, IsolationRoomRequest $roomRequest)
+    public function update(UpdateIsolationRoomRequestRequest $request, $id)
     {
-        //
-        $roomRequest = IsolationRoomRequest::findOrFail($roomRequest);
-        $roomRequest->update($request->validated());
-
-        $occupant = Occupant::findOrFail($roomRequest->occupant_id);
-        $occupant->update($request->validated());
-
-        return new IsolationRoomRequestResource($roomRequest);
+        $roomRequest = IsolationRoomRequest::where('id', $id)->first();
+        $roomRequest->update($request->all());
+        if ($request->input('status') == 'DISCHARGED') {
+            $updateRoom = IsolationRoom::where('id', $roomRequest->isolation_room_id)->update(array('status' => 'VACANT'));
+        } else {
+            $updateRoom = IsolationRoom::where('id', $roomRequest->isolation_room_id)->update(array('status' => 'OCCUPIED'));
+        }
+        return $roomRequest;
     }
 
     /**
