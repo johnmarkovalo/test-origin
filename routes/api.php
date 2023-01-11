@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OccupantHistoryController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ Route::group(['middleware' => 'forceJsonResponse'], function () {
                     return request()->user();
                 });
                 Route::put('/user/change-password', 'UserController@changePassword');
+
+                Route::get('/dashboard', [UserController::class, 'dashboard']);
 
                 Route::apiResource('occupants', 'OccupantController');
                 Route::apiResource('hospitals', 'HospitalController');

@@ -171,11 +171,12 @@ export default {
                 adminIsolationRequest: true,
                 // adminRoom: true,
                 //hospital
-                // hospitalDashboard: true,
+                hospitalDashboard: true,
                 hospitalRoom: true,
                 hospitalUser: true,
                 hospitalRequest: true,
 
+                isolationDashboard: true,
                 isolationRoom: true,
                 isolationUser: true,
                 isolationRequest: true,
@@ -202,6 +203,7 @@ export default {
                     adminIsolation: false,
                     adminIsolationRequest: false,
 
+                    isolationDashboard: false,
                     isolationRoom: false,
                     isolationUser: false,
                     isolationRequest: false,
@@ -216,6 +218,7 @@ export default {
                     adminIsolation: false,
                     adminIsolationRequest: false,
 
+                    hospitalDashboard: false,
                     hospitalRoom: false,
                     hospitalUser: false,
                     hospitalRequest: false,
