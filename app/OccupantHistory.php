@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OccupantHistory extends Model
 {
     protected $fillable = [
-        'occupant_id', 'details', 'activity_by', 'date', 'time'
+        'occupant_id', 'details', 'activity_by', 'date', 'time', 'remarks', 'additional_remarks'
     ];
 
     protected $hidden = [

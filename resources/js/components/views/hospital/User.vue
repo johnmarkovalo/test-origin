@@ -507,6 +507,23 @@
                                                                 </v-icon>
                                                             </v-btn>
                                                         </v-col>
+                                                        <v-col cols="12">
+                                                            <p>
+                                                                Remarks:
+                                                                <strong>{{
+                                                                    log.remarks
+                                                                }}</strong>
+                                                            </p>
+                                                        </v-col>
+                                                        <v-col cols="12">
+                                                            <p>
+                                                                Additional
+                                                                Remarks:
+                                                                <strong>{{
+                                                                    log.additional_remarks
+                                                                }}</strong>
+                                                            </p>
+                                                        </v-col>
                                                     </v-row>
                                                 </v-card-text>
                                             </v-card>
@@ -636,13 +653,29 @@
                                         </v-time-picker>
                                     </v-dialog>
                                 </v-col>
+                                <v-col cols="12">
+                                    <v-textarea
+                                        v-model="
+                                            editedHistoryInformation.remarks
+                                        "
+                                        label="Remarks"
+                                    />
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-textarea
+                                        v-model="
+                                            editedHistoryInformation.additional_remarks
+                                        "
+                                        label="Additional Remarks"
+                                    />
+                                </v-col>
                             </v-row>
                         </v-col>
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn class="px-12" text @click="closeOccupantForm"
+                    <v-btn class="px-12" text @click="closeHistoryForm"
                         >Cancel</v-btn
                     >
                     <v-btn class="px-12" @click="saveHistory" color="primary"

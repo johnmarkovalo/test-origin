@@ -21,6 +21,8 @@ class CreateOccupantHistoriesTable extends Migration
             $table->string('activity_by');
             $table->date('date');
             $table->time('time');
+            $table->string('remarks');
+            $table->string('additional_remarks');
             $table->timestamps();
         });
     }
