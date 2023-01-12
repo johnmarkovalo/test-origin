@@ -620,7 +620,7 @@
                                                 v-model="
                                                     editedHistoryInformation.time
                                                 "
-                                                label="Birthday"
+                                                label="Time"
                                                 readonly
                                                 v-on="on"
                                             />
