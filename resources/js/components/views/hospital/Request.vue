@@ -158,6 +158,8 @@ export default {
                 { text: "Address", value: "occupant.address" },
                 { text: "Contract", value: "occupant.number" },
                 { text: "Room", value: "hospital_room.room_no" },
+                { text: "Status", value: "status" },
+                { text: "Type", value: "type" },
                 {
                     text: "Actions",
                     value: "actions",
@@ -338,6 +340,8 @@ export default {
                 .put(
                     "/api/v1/roomrequests/" + this.editedRequestInformation.id,
                     {
+                        hospital_room_id:
+                            this.editedRequestInformation.hospital_room_id,
                         type: this.editedRequestInformation.type,
                         status: this.editedRequestInformation.status,
                     }

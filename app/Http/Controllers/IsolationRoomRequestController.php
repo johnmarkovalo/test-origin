@@ -28,15 +28,7 @@ class IsolationRoomRequestController extends Controller
             return $roomRequest;
         } elseif ($authenticatedUser->role == 'ISOLATION') {
             $isolation = Isolation::where('user_id', $authenticatedUser->id)->first();
-            // dd($isolation->id);
-            $occupiedRoom = $isolation->isolationRooms->load("roomRequests");
-            //Merge all the room requests of each room into one array
-            $roomRequests = [];
-            foreach ($occupiedRoom as $room) {
-                foreach ($room->roomRequests as $request) {
-                    array_push($roomRequests, $request);
-                }
-            }
+            $roomRequests = $isolation->roomRequests();
 
             return $roomRequests;
         }
@@ -60,10 +52,23 @@ class IsolationRoomRequestController extends Controller
      */
     public function store(StoreIsolationRoomRequestRequest $request)
     {
-        //
-        // dd($request->input('isolation_room_id'));
+        if (Auth::user()->role == 'ISOLATION') {
+            $isolation = Isolation::where('user_id', Auth::user()->id)->first();
+            $request->merge(['isolation_id' => $isolation->id]);
+        } elseif (Auth::user()->role == 'OCCUPANT') {
+            $occupant = Occupant::where('user_id', Auth::user()->id)->first();
+            $request->merge(['occupant_id' => $occupant->id]);
+            $type = $occupant->type;
+            $request->merge(['type' => $type]);
+            $status = 'PENDING';
+            $request->merge(['status' => $status]);
+        } elseif (Auth::user()->role == 'ADMINISTRATOR') {
+            $isolationRoom = IsolationRoom::where('id', $request->input('isolation_room_id'))->first();
+            $request->merge(['isolation_id' => $isolationRoom->isolation_id]);
+        }
         $roomRequest = IsolationRoomRequest::create(
             array_merge([
+                'isolation_id' => $request->input('isolation_id'),
                 'isolation_room_id' => $request->input('isolation_room_id'),
                 'occupant_id' => $request->input('occupant_id'),
                 'type' => $request->input('type'),

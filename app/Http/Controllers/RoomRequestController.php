@@ -28,15 +28,7 @@ class RoomRequestController extends Controller
             return $roomRequest;
         } elseif ($authenticatedUser->role == 'HOSPITAL') {
             $hospital = Hospital::where('user_id', $authenticatedUser->id)->first();
-            // dd($hospital->id);
-            $occupiedRoom = $hospital->hospitalRooms->load("roomRequests");
-            //Merge all the room requests of each room into one array
-            $roomRequests = [];
-            foreach ($occupiedRoom as $room) {
-                foreach ($room->roomRequests as $request) {
-                    array_push($roomRequests, $request);
-                }
-            }
+            $roomRequests = $hospital->roomRequests();
 
             return $roomRequests;
         }
@@ -60,10 +52,23 @@ class RoomRequestController extends Controller
      */
     public function store(StoreRoomRequestRequest $request)
     {
-        //
-        // dd($request->input('hospital_room_id'));
+        if (Auth::user()->role == 'HOSPITAL') {
+            $hospital = Hospital::where('user_id', Auth::user()->id)->first();
+            $request->merge(['hospital_id' => $hospital->id]);
+        } elseif (Auth::user()->role == 'OCCUPANT') {
+            $occupant = Occupant::where('user_id', Auth::user()->id)->first();
+            $request->merge(['occupant_id' => $occupant->id]);
+            $type = $occupant->type;
+            $request->merge(['type' => $type]);
+            $status = 'PENDING';
+            $request->merge(['status' => $status]);
+        } elseif (Auth::user()->role == 'ADMINISTRATOR') {
+            $hospitalRoom = HospitalRoom::where('id', $request->input('hospital_room_id'))->first();
+            $request->merge(['hospital_id' => $hospitalRoom->hospital_id]);
+        }
         $roomRequest = RoomRequest::create(
             array_merge([
+                'hospital_id' => $request->input('hospital_id'),
                 'hospital_room_id' => $request->input('hospital_room_id'),
                 'occupant_id' => $request->input('occupant_id'),
                 'type' => $request->input('type'),

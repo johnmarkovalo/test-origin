@@ -24,4 +24,9 @@ class Hospital extends Model
     {
         return $this->hasMany(HospitalRoom::class);
     }
+
+    public function roomRequests()
+    {
+        return RoomRequest::where('hospital_id', $this->id)->get();
+    }
 }

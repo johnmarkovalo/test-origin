@@ -61,7 +61,7 @@
                             <GmapMap
                                 ref="map"
                                 style="width: 100%; height: 800px"
-                                :zoom="16"
+                                :zoom="14"
                                 :center="center"
                             >
                                 <GmapMarker
@@ -129,6 +129,16 @@
                                     hospital.status
                                 }}</v-chip></v-col
                             >
+                        </v-row>
+                        <v-row>
+                            <v-btn
+                                rounded
+                                large
+                                color="primary"
+                                @click="requestRoom(hospital)"
+                            >
+                                Request Room
+                            </v-btn>
                         </v-row>
                     </v-container>
                 </v-card-text>
@@ -280,6 +290,34 @@ export default {
                     }
                 );
             });
+        },
+
+        requestRoom(hospital) {
+            if (hospital.type == "HOSPITAL") {
+                axios
+                    .post("/api/v1/roomrequests", {
+                        hospital_id: hospital.id,
+                    })
+                    .then((response) => {
+                        swal.fire({
+                            type: "success",
+                            icon: "success",
+                            text: "Room Request Sent!",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    })
+                    .catch((error) => {
+                        this.componentOverlay = false;
+
+                        if (error.response.status == 422) {
+                            this.formRoomErrors = error.response.data.errors;
+                        } else {
+                            console.log(error);
+                        }
+                    })
+                    .finally(() => {});
+            }
         },
     },
 

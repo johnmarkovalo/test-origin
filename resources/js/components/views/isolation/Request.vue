@@ -339,6 +339,8 @@ export default {
                     "/api/v1/isolationroomrequests/" +
                         this.editedRequestInformation.id,
                     {
+                        isolation_room_id:
+                            this.editedRequestInformation.isolation_room_id,
                         type: this.editedRequestInformation.type,
                         status: this.editedRequestInformation.status,
                     }

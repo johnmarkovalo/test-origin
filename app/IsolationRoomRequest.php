@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class IsolationRoomRequest extends Model
 {
     protected $fillable = [
-        'isolation_room_id', 'occupant_id', 'type', 'status'
+        'isolation_id', 'isolation_room_id', 'occupant_id', 'type', 'status'
     ];
 
     //    protected $hidden = [
@@ -24,5 +24,10 @@ class IsolationRoomRequest extends Model
     public function isolationRoom()
     {
         return $this->belongsTo(IsolationRoom::class);
+    }
+
+    public function roomRequests()
+    {
+        return RoomRequest::where('isolation_room_id', $this->isolation_room_id)->get();
     }
 }

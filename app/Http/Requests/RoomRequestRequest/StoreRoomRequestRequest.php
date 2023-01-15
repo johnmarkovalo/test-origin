@@ -25,9 +25,9 @@ class StoreRoomRequestRequest extends FormRequest
     {
         return [
             // 'hospital_room_id' => 'required',
-            'occupant_id' => 'required',
-            'status' => 'nullable',
-            'type' => 'nullable',
+            // 'occupant_id' => 'required',
+            // 'status' => 'nullable',
+            // 'type' => 'nullable',
         ];
     }
 }

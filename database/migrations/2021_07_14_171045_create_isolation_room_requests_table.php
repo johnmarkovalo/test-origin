@@ -15,7 +15,9 @@ class CreateIsolationRoomRequestsTable extends Migration
     {
         Schema::create('isolation_room_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('isolation_room_id');
+            $table->unsignedBigInteger('isolation_id')->nullable();
+            $table->foreign('isolation_id')->references('id')->on('isolations')->onDelete('cascade');
+            $table->unsignedBigInteger('isolation_room_id')->nullable();
             $table->foreign('isolation_room_id')->references('id')->on('isolation_rooms')->onDelete('cascade');
             $table->unsignedBigInteger('occupant_id');
             $table->foreign('occupant_id')->references('id')->on('occupants')->onDelete('cascade');

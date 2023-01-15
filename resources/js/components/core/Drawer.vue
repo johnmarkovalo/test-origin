@@ -9,19 +9,39 @@
         width="260"
     >
         <v-list dense>
-            <v-list-item
+            <div
                 v-for="(link, i) in links"
                 :key="i"
-                :to="link.to"
-                active-class="primary"
                 v-if="userPermission(link.module)"
-                class="v-list-item"
             >
-                <v-list-item-action>
-                    <v-icon>{{ link.icon }}</v-icon>
-                </v-list-item-action>
-                <v-list-item-title v-text="link.text" />
-            </v-list-item>
+                <v-list-item
+                    :to="link.to"
+                    active-class="primary"
+                    class="v-list-item"
+                    v-if="
+                        link.module != 'hospitalRequest' &&
+                        link.module != 'isolationRequest'
+                    "
+                >
+                    <v-list-item-action>
+                        <v-icon>{{ link.icon }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-title v-text="link.text" />
+                </v-list-item>
+                <v-list-item
+                    v-else
+                    :to="link.to"
+                    active-class="primary"
+                    class="v-list-item"
+                >
+                    <v-list-item-action>
+                        <v-badge color="error" :content="pendingRequests">
+                            <v-icon>{{ link.icon }}</v-icon>
+                        </v-badge>
+                    </v-list-item-action>
+                    <v-list-item-title v-text="link.text" />
+                </v-list-item>
+            </div>
         </v-list>
         <template v-slot:append>
             <v-list dense>
@@ -141,6 +161,7 @@ export default {
                 module: "isolationRequest",
             },
         ],
+        pendingRequests: 0,
         userRole: sessionStorage.getItem("user-type"),
         // userRole: "HOSPITAL"
     }),
@@ -245,6 +266,35 @@ export default {
                     }
                 });
         },
+
+        fetchRequests() {
+            this.tableLoading = true;
+            this.componentOverlay = true;
+            let api = "";
+            if (this.userRole == "HOSPITAL") {
+                api = "/api/v1/roomrequests";
+            } else if (this.userRole == "ISOLATION") {
+                api = "/api/v1/isolationroomrequests";
+            }
+            axios
+                .get(api)
+                .then((response) => {
+                    let requests = response.data;
+                    this.pendingRequests = requests.filter(
+                        (request) => request.status == "PENDING"
+                    ).length;
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    this.componentOverlay = false;
+                    this.tableLoading = false;
+                });
+        },
+    },
+    created() {
+        this.fetchRequests();
     },
 };
 </script>
