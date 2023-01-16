@@ -39,12 +39,14 @@ class UserController extends Controller
         $positive = $occupants->where('type', 'COVID')->count();
         $discharged = $occupants->where('status', 'DISCHARGED')->count();
         $vaccinated = $occupants->where('vaccination', 'VACCINATED')->count();
+        $deceased = $occupants->where('status', 'DECEASED')->count();
 
         $data = [
             'occupants' => $occupants->count(),
             'discharged' => $discharged,
             'vaccinated' => $vaccinated,
             'positive' => $positive,
+            'deceased' => $deceased
         ];
 
         return response()->json($data);

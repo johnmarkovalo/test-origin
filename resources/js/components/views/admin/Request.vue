@@ -177,7 +177,7 @@ export default {
 
             rooms: [],
             occupants: [],
-            statuses: ["ADMITTED", "DISCHARGED"],
+            statuses: ["ADMITTED", "DISCHARGED", "DECEASED"],
             types: ["COVID", "NON_COVID"],
 
             //Google Maps Variables

@@ -1,7 +1,7 @@
 <template>
     <v-container fill-height fluid grid-list-xl>
         <v-row justify="center">
-            <v-col cols="12" md="8" class="dashboard-stats">
+            <v-col cols="12" md="10" class="dashboard-stats">
                 <v-row class="mt-4">
                     <v-col>
                         <h1>Dashboard</h1>
@@ -13,8 +13,8 @@
                         sm="6"
                         xs="12"
                         md="6"
-                        lg="6"
-                        xl="3"
+                        lg="3"
+                        xl="2"
                         v-for="(stat, index) in stats"
                         :key="index"
                     >
@@ -75,9 +75,20 @@ export default {
                     subtextcolor: "",
                 },
                 {
-                    color: "red",
+                    color: "pink",
                     icon: "fa-virus",
                     title: "Positive",
+                    value: "0",
+                    smallvalue: "",
+                    subicon: "mdi-update",
+                    subiconcolor: "",
+                    subtext: "Basic Plan",
+                    subtextcolor: "",
+                },
+                {
+                    color: "red",
+                    icon: "fa-cross",
+                    title: "Mortality",
                     value: "0",
                     smallvalue: "",
                     subicon: "mdi-update",
@@ -103,6 +114,7 @@ export default {
                         "discharged",
                         "vaccinated",
                         "positive",
+                        "deceased",
                     ];
                     this.stats.forEach((stat) => {
                         stat.value = stats[keys[i]].toString();
