@@ -82,7 +82,7 @@ export default {
                     smallvalue: "",
                     subicon: "mdi-update",
                     subiconcolor: "",
-                    subtext: "Basic Plan",
+                    subtext: "Just Updated",
                     subtextcolor: "",
                 },
                 {
@@ -93,7 +93,7 @@ export default {
                     smallvalue: "",
                     subicon: "mdi-update",
                     subiconcolor: "",
-                    subtext: "Basic Plan",
+                    subtext: "Just Updated",
                     subtextcolor: "",
                 },
             ],
