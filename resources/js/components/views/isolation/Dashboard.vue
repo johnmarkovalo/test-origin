@@ -7,6 +7,20 @@
                         <h1>Dashboard</h1>
                         <h4 class="mt-4">Quick Stats</h4>
                     </v-col>
+                    <v-col class="text-right">
+                        <export-excel
+                            class="btn btn-default"
+                            :data="json_data"
+                            :fields="json_fields"
+                            worksheet="Report"
+                            :name="fileName()"
+                        >
+                                  <v-btn color="primary" small
+                                >Download Report</v-btn
+                            >
+                             
+                        </export-excel>
+                    </v-col>
                 </v-row>
                 <v-row>
                     <v-col
@@ -99,6 +113,31 @@ export default {
             ],
             profileId: sessionStorage.getItem("profile-id"),
             componentOverlay: false,
+            json_fields: {
+                Occupants: "occupants",
+                Discharged: "discharged",
+                Vaccinated: "vaccinated",
+                Positive: "positive",
+                Mortality: "deceased",
+            },
+            json_data: [
+                {
+                    occupants: "0",
+                    discharged: "0",
+                    vaccinated: "0",
+                    positive: "0",
+                    deceased: "0",
+                },
+            ],
+            json_meta: [
+                [
+                    {
+                        key: "charset",
+                        value: "utf-8",
+                    },
+                ],
+            ],
+            date: new Date().toISOString().substr(0, 10),
         };
     },
 
@@ -108,6 +147,7 @@ export default {
                 .get("/api/v1/dashboard")
                 .then((response) => {
                     let stats = response.data;
+                    this.json_data = [stats];
                     let i = 0;
                     let keys = [
                         "occupants",
@@ -132,6 +172,11 @@ export default {
         formattedAmount(number) {
             let internationalNumberFormat = new Intl.NumberFormat("en-US");
             return internationalNumberFormat.format(number);
+        },
+
+        fileName() {
+            //With readable date format
+            return "Dashboard Report as Of " + this.date;
         },
     },
 
