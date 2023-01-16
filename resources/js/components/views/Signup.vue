@@ -60,6 +60,37 @@
                                                             ></v-text-field
                                                         ></v-col>
                                                         <v-col cols="12" md="6"
+                                                            ><v-text-field
+                                                                v-model="
+                                                                    user.relative_name
+                                                                "
+                                                                :error-messages="
+                                                                    formSignUpError.relative_name
+                                                                "
+                                                                :rules="
+                                                                    rules.required
+                                                                "
+                                                                label="Relative/Gaurdian Name"
+                                                            ></v-text-field
+                                                        ></v-col>
+                                                        <v-col cols="12" md="6"
+                                                            ><v-text-field
+                                                                v-model="
+                                                                    user.relative_contact
+                                                                "
+                                                                :error-messages="
+                                                                    formSignUpError.relative_contact
+                                                                "
+                                                                :rules="
+                                                                    rules.contactRules
+                                                                "
+                                                                prefix="(+63)"
+                                                                maxlength="10"
+                                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                                label="Relative/Gaurdian Contact Number"
+                                                            ></v-text-field
+                                                        ></v-col>
+                                                        <v-col cols="12" md="6"
                                                             ><v-select
                                                                 :items="[
                                                                     'MALE',

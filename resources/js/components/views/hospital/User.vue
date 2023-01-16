@@ -118,7 +118,7 @@
                                         v-model="
                                             editedOccupantInformation.gender
                                         "
-                                        label="Number"
+                                        label="Gender"
                                     />
                                 </v-col>
                                 <v-col cols="12" md="3">
@@ -170,7 +170,31 @@
                                 </v-col>
                             </v-row>
                             <v-row justify="center">
-                                <v-col cols="12" md="6">
+                                <v-col cols="12" md="3">
+                                    <v-text-field
+                                        type="text"
+                                        :error-messages="
+                                            formOccupantErrors.relative_name
+                                        "
+                                        v-model="
+                                            editedOccupantInformation.relative_name
+                                        "
+                                        label="Relative/Gaurdian Name"
+                                    />
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <v-text-field
+                                        type="text"
+                                        :error-messages="
+                                            formOccupantErrors.relative_contact
+                                        "
+                                        v-model="
+                                            editedOccupantInformation.relative_contact
+                                        "
+                                        label="Relative/Gaurdian Number"
+                                    />
+                                </v-col>
+                                <v-col cols="12" md="3">
                                     <v-text-field
                                         type="text"
                                         :error-messages="
@@ -182,7 +206,7 @@
                                         label="Username"
                                     />
                                 </v-col>
-                                <v-col cols="12" md="6"
+                                <v-col cols="12" md="3"
                                     ><v-text-field
                                         v-model="
                                             editedOccupantInformation.password
@@ -315,7 +339,7 @@
                                         v-model="
                                             editedOccupantInformation.gender
                                         "
-                                        label="Number"
+                                        label="Gender"
                                     />
                                 </v-col>
                                 <v-col cols="12" md="3">
@@ -410,7 +434,33 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col cols="12">
+                                <v-col cols="12" md="4">
+                                    <v-text-field
+                                        type="text"
+                                        readonly
+                                        :error-messages="
+                                            formOccupantErrors.relative_name
+                                        "
+                                        v-model="
+                                            editedOccupantInformation.relative_name
+                                        "
+                                        label="Relative/Gaurdian Name"
+                                    />
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-text-field
+                                        type="text"
+                                        readonly
+                                        :error-messages="
+                                            formOccupantErrors.relative_contact
+                                        "
+                                        v-model="
+                                            editedOccupantInformation.relative_contact
+                                        "
+                                        label="Relative/Gaurdian Contact Number"
+                                    />
+                                </v-col>
+                                <v-col cols="12" md="4">
                                     <v-text-field
                                         type="text"
                                         readonly

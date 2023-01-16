@@ -32,6 +32,8 @@ class UpdateOccupantRequest extends FormRequest
             'gender' => 'required',
             'birthdate' => 'required',
             'vaccination' => 'required',
+            'relative_name' => 'required',
+            'relative_contact' => 'required',
         ];
     }
 }
